@@ -1,9 +1,11 @@
 ---
 - name: Ensure APT proxy is configured
+  sudo: yes
   template: src=Debian/proxies.j2 dest=/etc/apt/apt.conf.d/95proxies
   when: packaging_proxy is defined and packaging_proxy != ""
 
 - name: Check if i386 is enabled
+  sudo: yes
   shell: dpkg --print-foreign-architectures | grep i386
   register: result_i386_check
   changed_when: result_i386_check.rc == 1
@@ -11,17 +13,21 @@
   when: packaging_enable_i386
 
 - name: Enable i386 architecture
+  sudo: yes
   command: dpkg --add-architecture i386
   when: packaging_enable_i386 and result_i386_check.rc == 1
 
 - name: Ensure apt cache is up to date
+  sudo: yes
   apt: update_cache=yes
   when: packaging_enable_i386 and result_i386_check.rc == 1
 
 - name: Ensure default packages are installed
+  sudo: yes
   apt: pkg={{item}} state=installed
   with_items: packaging_packages
 
 - name: Ensure packages are deleted
+  sudo: yes
   apt: pkg={{item}} state=absent
   with_items: packaging_deleted_packages
