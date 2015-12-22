@@ -1,0 +1,12 @@
+---
+- name: Ensure default packages are installed using Yum
+  sudo: yes
+  yum: pkg={{item}} state=installed
+  with_items: packaging_packages
+  when: ansible_distribution == 'RedHat'
+
+- name: Ensure packages are deleted using Yum
+  sudo: yes
+  yum: pkg={{item}} state=absent
+  with_items: packaging_deleted_packages
+  when: ansible_distribution == 'RedHat'

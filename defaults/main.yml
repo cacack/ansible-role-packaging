@@ -1,7 +1,12 @@
 ---
+# Fedora
+packaging_fedora_rpmfusion_repository: false
+
+# Ubuntu
 packaging_ubuntu_extras_repository: false
 packaging_ubuntu_partner_repository: false
 packaging_ubuntu_multiverse_repository: false
+
 packaging_enable_i386: false
 #packaging_proxy: ""
 packaging_packages: []

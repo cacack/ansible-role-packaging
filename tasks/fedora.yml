@@ -1,0 +1,23 @@
+---
+- name: Add RPM Fusion repository using DNF
+  dnf:
+    name: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
+    state: present
+  sudo: yes
+  when: ansible_distribution_version >= 22 and packaging_fedora_rpmfusion_repository
+
+- name: Ensure default packages are installed using DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: packaging_packages
+  sudo: yes
+  when: ansible_distribution_version >= 22
+
+- name: Ensure packages are deleted using DNF
+  dnf:
+    name: "{{item}}"
+    state: absent
+  with_items: packaging_deleted_packages
+  sudo: yes
+  when: ansible_distribution_version >= 22
