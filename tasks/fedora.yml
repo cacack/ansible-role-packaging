@@ -10,6 +10,7 @@
   dnf:
     name: "{{item}}"
     state: present
+    enablerepo: rpmfusion-free-updates-testing
   with_items: packaging_packages
   sudo: yes
   when: ansible_distribution_version >= 22
