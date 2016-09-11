@@ -1,20 +1,5 @@
 ---
-- name: Rules for distribution Ubuntu
-  include: ubuntu.yml
-  when: ansible_distribution == 'Ubuntu'
-  tags: ["packages", "packaging"]
 
-- name: Rules for distribution Fedora
-  include: fedora.yml
-  when: ansible_distribution == 'Fedora'
-  tags: ["packages", "packaging"]
-
-- name: Rules for OS family Debian
-  include: debian.yml
-  when: ansible_os_family == 'Debian'
-  tags: ["packages", "packaging"]
-
-- name: Rules for OS family RedHat
-  include: redhat.yml
-  when: ansible_os_family == 'RedHat'
+- name: Packaging rules for linux distribution
+  include: "{{ansible_distribution|lower}}.yml"
   tags: ["packages", "packaging"]
