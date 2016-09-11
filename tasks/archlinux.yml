@@ -1,0 +1,34 @@
+---
+
+- name: Enable yaourt repository
+  blockinfile:
+    dest: /etc/pacman.conf
+    backup: yes
+    insertafter: EOF
+    block: |
+      [archlinuxfr]
+      SigLevel = Never
+      Server = http://repo.archlinux.fr/$arch
+  become: yes
+  when: packaging_yaourt_repository
+
+- name: Ensure default packages are installed using Pacman
+  pacman:
+    name: "{{item}}"
+    state: present
+  with_items: "{{packaging_packages}}"
+  become: yes
+
+- name: Ensure packages are deleted using Pacman
+  pacman:
+    name: "{{item}}"
+    state: absent
+  with_items: "{{packaging_deleted_packages}}"
+  become: yes
+
+- name: Ensure packages are installed using yaourt
+  command:  "yaourt -S {{item}} --noconfirm --needed"
+  with_items: "{{yaourt_packages}}"
+  #become: yes
+  when: use_yaourt
+

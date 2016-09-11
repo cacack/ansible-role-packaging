@@ -1,4 +1,8 @@
 ---
+# Archlinux
+packaging_yaourt_repository: false
+use_yaourt: false
+
 # Fedora
 packaging_fedora_rpmfusion_repository: false
 
